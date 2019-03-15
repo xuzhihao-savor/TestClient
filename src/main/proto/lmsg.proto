@@ -1,0 +1,223 @@
+syntax = "proto2";
+import "bstruct.proto";
+
+package LogicMsg;
+
+/******************为了保证客户端也能使用这些公共的协议, 目前写在这里 */
+/** 心跳 */
+message HeartBeat {
+	optional int64 sendTime = 1;
+	optional BStruct.iSys _sys_ = 2;
+}
+message HeartBeatRet {
+	optional int64 sendTime = 1;
+	optional BStruct.iSys _sys_ = 2;
+}
+
+/** 是否启用压缩通知 */
+message Zlib {
+	required bool data = 1;
+	optional BStruct.iSys _sys_ = 2;
+}
+/******************为了保证客户端也能使用这些公共的协议, 目前写在这里 */
+
+
+
+/** 邮件和任务增量同步 */
+message SC_L_Sync {
+	repeated BStruct.iSyncMail mails = 1;
+	repeated BStruct.iSyncTask tasks = 2;
+}
+
+/** 登陆信息 */
+message CS_L_Login {
+	/** 昵称 */
+	required string name = 1;
+}
+
+message CS_L_LoLLogin {
+	/** uuid */
+	required string openUuid = 1;
+	/** token */
+	required string openToken = 2;
+}
+
+message SC_L_Login {
+	required BStruct.iBaseInfo baseinfo = 1;
+	map<string, BStruct.iSeMail> mails = 2;
+	map<string, BStruct.iSeTask> tasks = 3;
+	required bool is_new = 4;
+	required int32 sid = 5;
+	optional BStruct.sLoLUserInfo userInfo = 6;
+}
+
+message CS_L_Leave {
+	required string name = 1;
+}
+
+message SC_L_Kick {
+	required int32 code = 1;
+}
+
+message CS_L_GuideNext {
+	required int32 guide = 1;
+}
+
+message SC_L_GuideNext {
+	required int32 guide = 1;
+}
+
+message CS_L_EnterMatch {
+	required int32 mapId = 1;
+}
+
+message SC_L_EnterMatch {
+	required bool succ = 1;
+}
+
+message CS_L_LeaveMatch {
+}
+
+message SC_L_LeaveMatch {
+	required bool succ = 1;
+}
+
+
+message SC_L_MatchRace {
+	required int64 gameid = 1;
+	required int32 mapid = 2;
+	required int64 time = 3;
+	required int32 rmode = 4;
+	required string link = 5;
+	repeated int32 teaminfo = 6;
+	required int32 timeout = 7;
+	required int32 minelo = 8;
+	required int32 maxelo = 9;
+	required int32 teamid = 10;
+	repeated int32 roles = 11;
+	required int32 sid = 12;
+}
+
+message CS_L_GetPlayerInfo {
+	required string uid = 1;
+}
+
+message SC_L_GetPlayerInfo {
+	required string succ = 1;
+	required BStruct.iBaseInfo baseinfo = 2;
+}
+
+//作弊命令
+message CS_L_Cheat {
+	required string command = 1;
+	repeated string args = 2;
+}
+
+//榜单
+message CS_L_QueryRank {
+	required string type = 1;
+	required string subtype = 2;
+}
+message SC_L_QueryRank {
+	required string type = 1;
+	required string subtype = 2;
+	required int32 total = 3;
+	required int32 rank = 4;
+}
+
+message CS_L_QueryRanksWithRank {
+	required string type = 1;
+	required string subtype = 2;
+	required int32 rank = 3;
+	required int32 length = 4;
+}
+message SC_L_QueryRanksWithRank {
+	required string type = 1;
+	required string subtype = 2;
+	required int32 total = 3;
+	required int32 rank = 4;
+	repeated string uids = 5;
+	repeated int32 scores = 6;
+	repeated string exts = 7;
+}
+
+message CS_L_QueryRanksWithMember {
+	required string type = 1;
+	required string subtype = 2;
+	required int32 length = 3;
+}
+message SC_L_QueryRanksWithMember {
+	required string type = 1;
+	required string subtype = 2;
+	required int32 total = 3;
+	required int32 rank = 4;
+	required BStruct.iChart_Details details = 5;
+	repeated string uids = 6;
+	repeated int32 scores = 7;
+	repeated string exts = 8;
+}
+
+//角色相关
+message CS_L_SetRole {
+	required int32 useRole = 1;
+}
+message SC_L_SetRole {
+	required int32 useRole = 1;
+}
+
+//道具
+message SC_L_RechargeNotice {
+	required string order = 1;
+	required string itemid = 2;
+	required int32 num = 3;
+	required int64 time = 4;
+}
+
+//商城
+message CS_L_Exchange {
+	required int32 shopMallID = 1;
+}
+message SC_L_Exchange {
+	repeated BStruct.iUpdateItem items = 1;
+}
+
+
+//装备
+message CS_L_Wear {
+	required int32 itemid = 1;
+}
+message SC_L_Wear {
+	required int32 type = 1;
+	required int32 itemid = 2;
+}
+
+//任务相关
+message CS_L_ReportTask {
+	required int32 taskType = 1;
+	repeated int32 conditions = 2;
+}
+message CS_L_RewardTask {
+	required string taskid = 1;
+}
+message SC_L_RewardTask {
+	repeated BStruct.iUpdateItem items = 1;
+}
+
+//兑换码
+message CS_L_RewardCode {
+	required string code = 1;
+}
+message SC_L_RewardCode {
+	required int32 code = 1;
+	repeated BStruct.iUpdateItem items = 2;
+}
+
+//分享
+message CS_L_ShareApp {
+	required string channel = 1;
+}
+
+//跑马灯
+message SC_L_LampNotice {
+	required string info = 1;
+}

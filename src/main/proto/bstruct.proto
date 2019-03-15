@@ -1,0 +1,179 @@
+syntax="proto2";
+
+package BStruct;
+
+/*********************************************************/
+message iSys{
+	required string plt = 1;
+	required int32 id = 2;
+}
+message iUser{
+	required string uid = 1;
+	required string nid = 2;
+	required int64 time = 3;
+	required string name = 4;
+}
+message iMatch_user {
+	required string uid = 1;
+	required string name = 2;
+	required int32 elo = 3;
+	required int32 sid = 4;
+}
+message iMatch_Result {
+	required int32 gameId = 1;
+	required string sid = 2;
+	required int32 rank = 3;
+	required int32 killed = 4;
+	required int32 moved = 5;
+	required int32 level = 6;
+	required int32 uid = 7;
+	required int32 mapId = 8;
+	required int32 racetime = 9;
+	required int32 finishtime = 10;
+	required int32 elo = 11;
+	required int32 totalDemage = 12;
+	optional string skillUseInfo = 13;
+	repeated int32 awardItemId = 14;
+	repeated int32 awardItemNum = 15;
+}
+message iChart_Value {
+	required string uid = 1;
+	required int32 value = 2;
+	required string ext = 3;
+}
+/*********************************************************/
+message iBaseInfo {
+	required string uid = 1;
+	required string openUid = 2;
+	/** 昵称 */
+	required string name = 3;
+	required string icon = 4;
+	required int32 elo = 5;
+	required int32 useRole = 6;
+	repeated iSeRole roles = 7;
+	map<string, iStatistics> statistics = 8;
+	required iStateInfo stateInfo = 9;
+	required int32 guide = 10;
+	repeated iItem items = 11;
+	map<string, int32> equips = 12;
+	map<string, int64> orderMap = 13;
+	required int32 seasonid = 14;
+	map<string, int32> codeGroup = 15;
+	required int64 registerTime = 16;
+	required int64 lastLoginTime = 17;
+	required int32 onlineTime = 18;
+}
+
+message iSeRole {
+	required int32 role = 1;
+	required int32 level = 2;
+}
+
+message iStatistics {
+	map<int32, int32> skinfo = 1;
+	map<int32, int32> roleinfo = 2;
+	repeated int32 rank = 3;
+	required int32 killed = 4;
+	required int32 topkilled = 5;
+	required int32 demage = 6;
+	required int32 moved = 7;
+	required int32 level = 8;
+	required int32 racetime = 9;
+	required int32 tot = 10;
+}
+
+enum ePlayerState {
+    null = 0;
+    matching = 1;
+    racing = 2;
+    leave = 3;
+}
+message iStateInfo {
+	required ePlayerState state = 1;
+	// null, null, SC_L_MatchRace
+	optional bytes ext = 2;
+}
+
+message iItem {
+	required int32 id = 1;
+	required int32 num = 2;	
+}
+
+
+
+enum eSeMailType {
+    SYSTEM = 0;
+    AutoUse = 1;        
+    Charge = 2;
+    SEND = 3;     
+    GM = 4;
+    Chart = 5;
+    Record = 6;
+}
+message iSeMail {
+	required string id = 1;
+	required eSeMailType type = 2;
+	required bytes msg = 3;
+	required string title = 4;
+	repeated iItem items = 5;
+	required int32 state = 6;
+	required int64 cttime = 7;
+	required int64 endTime = 8;
+}
+
+message iSyncMail {
+	required string k = 1;
+	required iSeMail v = 2;
+}
+
+message iSeTask {
+	required string id = 1;
+	required int32 type = 2;
+	required int32 value = 3;
+	required int32 reward = 4;
+	required int64 time = 5;
+}
+
+message iSyncTask {
+	required string k = 1;
+	required iSeTask v = 2;
+}
+
+/** lol接口给的info信息 */
+message sLoLUserInfo {
+	required string name = 1;
+	required string sign = 2;
+	required string birthday = 3;
+	required int32 communityLevel = 4;
+	required int32 mengbiCount = 5;
+	required string gender = 6;
+	required string faceUrl = 7;
+}
+
+message iUpdateRoles {
+	repeated iSeRole roles = 1;
+}
+
+/** 榜单的个人信息 */
+message iChart_Details {
+	required string name = 1;
+	required string title = 2;
+	required string icon = 3;
+	required int32 value = 4;
+}
+
+//道具相关
+enum eUpdateType {
+    add = 0;
+    del = 1;
+}
+message iUseItem {
+	required iUpdateItem item = 1;
+	optional bytes ext = 2;
+}
+message iUpdateItem {
+	required eUpdateType type = 1;
+	required iItem item = 2;
+	repeated iUseItem useitems = 3;
+}
+
